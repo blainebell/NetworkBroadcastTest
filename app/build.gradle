@@ -4,9 +4,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'key0'
-            keyPassword 'password'
-            storeFile file('/Users/bell/android_keystore/keystore.jks')
-            storePassword 'password'
+            keyPassword 'alex12'
+            storeFile file('/Users/bell/android_keystore/keystore3.jks')
+            storePassword 'alex12'
         }
     }
     compileSdkVersion 25

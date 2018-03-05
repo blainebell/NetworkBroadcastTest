@@ -88,22 +88,36 @@ public class BroadcastTestImpl {
 	}
 	public void clearListeningThreads() {
 		udp_message_cnt = multicast_message_cnt = 0;
-		if (receiveUDPThread!=null) {
-			receiveUDPThread.cont = false;
-			receiveUDPThread = null;
-		}
 		if (_udpSocket!=null){
 			_udpSocket.close();
 			_udpSocket = null;
 		}
-		udpIsConnected = false;
-		if (receiveMulticastThread!=null) {
-			receiveMulticastThread.cont = false;
-			receiveMulticastThread = null;
+		if (receiveUDPThread!=null) {
+			receiveUDPThread.cont = false;
+			try {
+				System.out.println("joining receiveUDPThread");
+				receiveUDPThread.join();
+			} catch (InterruptedException ie){
+				ie.printStackTrace();
+			}
+			System.out.println("receiveUDPThread finished");
+			receiveUDPThread = null;
 		}
+		udpIsConnected = false;
 		if (_multicastSocket!=null){
 			_multicastSocket.close();
 			_multicastSocket = null;
+		}
+		if (receiveMulticastThread!=null) {
+			receiveMulticastThread.cont = false;
+			try {
+				System.out.println("joining receiveMulticastThread");
+				receiveMulticastThread.join();
+			} catch (InterruptedException ie){
+				ie.printStackTrace();
+			}
+			System.out.println("receiveMulticastThread finished");
+			receiveMulticastThread = null;
 		}
 		multicastIsConnected = false;
 	}
