@@ -29,6 +29,7 @@ public class BroadcastTestImpl {
 		computerID = Math.abs(rand.nextInt()); // just use positive numbers, easier to read
 		isInitialized = true;
 	}
+	long lastUDPSendTime = 0l;
 	public void sendUDPMessage(String broadcastAddressString){
 		if (_udpSocket!=null) {
 			byte ba[] = new byte[packet_size];
@@ -36,7 +37,10 @@ public class BroadcastTestImpl {
 			offset[0] += 2;
 			StreamUtils.writeIntIntoByteArrayWithOffset(computerID, ba, offset);
 			StreamUtils.writeStringToByteArrayWithOffset("receiving UDP message #" + udp_message_cnt, ba, offset);
-			System.out.println("sending UDP message #" + udp_message_cnt + " isConnected=" + _udpSocket.isConnected());
+			long curTime = System.currentTimeMillis();
+			System.out.println("sending    UDP    message #" + udp_message_cnt + "\ttime=" + curTime + "\tsince last=" + (curTime-lastUDPSendTime));
+			lastUDPSendTime = curTime;
+
 			udp_message_cnt++;
 			StreamUtils.computeAndWriteCheckSum(ba);
 			try {
@@ -49,6 +53,7 @@ public class BroadcastTestImpl {
 			}
 		}
 	}
+	public long lastMulticastSendTime = 0l;
 	public void sendMulticastMessage(){
 		if (_multicastSocket!=null) {
 			byte ba[] = new byte[packet_size];
@@ -56,7 +61,9 @@ public class BroadcastTestImpl {
 			offset[0] += 2;
 			StreamUtils.writeIntIntoByteArrayWithOffset(computerID, ba, offset);
 			StreamUtils.writeStringToByteArrayWithOffset("receiving Multicast message #" + multicast_message_cnt, ba, offset);
-			System.out.println("sending Multicast message #" + multicast_message_cnt);
+			long curTime = System.currentTimeMillis();
+			System.out.println("sending Multicast message #" + multicast_message_cnt + "\ttime=" + curTime + "\tsince last=" + (curTime-lastMulticastSendTime));
+			lastMulticastSendTime = curTime;
 			multicast_message_cnt++;
 			StreamUtils.computeAndWriteCheckSum(ba);
 			DatagramPacket hi = new DatagramPacket(ba, ba.length, multicastGroupAddress, multicast_port);
@@ -128,6 +135,7 @@ public class BroadcastTestImpl {
 			_udpSocket = new DatagramSocket(udp_port);
 			_udpSocket.setBroadcast(true);
 			_udpSocket.setReuseAddress(true);
+            _udpSocket.setSoTimeout(0);
 			udpIsConnected = true;
 		} catch (BindException e){
 			sendMessage("Error creating binding UDP Socket, is it already in use : " + e.getMessage());
@@ -144,6 +152,7 @@ public class BroadcastTestImpl {
 					DatagramPacket recv = new DatagramPacket(buf, buf.length);
 					while (cont){
 						try {
+                            recv.setData(buf);
 							_udpSocket.receive(recv);
 							int offset [] = new int[] { 0 };
 							byte checksum[] = new byte[2];
@@ -202,6 +211,7 @@ public class BroadcastTestImpl {
 					DatagramPacket recv = new DatagramPacket(buf, buf.length);
 					while (cont){
 						try {
+                            recv.setData(buf);
 							_multicastSocket.receive(recv);
 							int offset [] = new int[] { 0 };
 							byte checksum[] = new byte[2];

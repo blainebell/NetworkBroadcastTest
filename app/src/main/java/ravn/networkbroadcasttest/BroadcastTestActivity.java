@@ -1,6 +1,8 @@
 package ravn.networkbroadcasttest;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +21,8 @@ import ravn.udpbroadcasttest.R;
 public class BroadcastTestActivity extends AppCompatActivity {
 
     BroadcastTestImpl broadcastTest = new BroadcastTestImpl();
+    WifiManager.WifiLock wifiLock = null;
+    WifiManager.MulticastLock multicastWifiLock = null;
     //boolean changeCheckboxColor = true;
     Vector<String> logTextList = new Vector<String>();
     Runnable uiLogThread = null;
@@ -115,6 +119,12 @@ public class BroadcastTestActivity extends AppCompatActivity {
         };
         getWindow().setTitle("Broadcast Window Testing");
 
+        System.setProperty("java.net.preferIPv4Stack", "true");
+        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiLock = wifi.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "test-tag");
+        multicastWifiLock = wifi.createMulticastLock("multicast-test-tag");
+        wifiLock.acquire();
+        multicastWifiLock.acquire();
         setContentView(R.layout.activity_broadcast_test);
 
         EditText computerLabelText = (EditText) findViewById(R.id.computerLabel);

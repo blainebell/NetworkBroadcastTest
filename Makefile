@@ -30,7 +30,8 @@ list:
 	$(ANDROID_SDK)/platform-tools/adb devices -l
 
 install:
-	$(ANDROID_SDK)/platform-tools/adb devices | tail -n +2 | cut -sf 1 | xargs -I {} $(ANDROID_SDK)/platform-tools/adb -s {} install -r ./app/build/outputs/apk/app-release.apk
+	$(ANDROID_SDK)/platform-tools/adb devices | tail -n +2 | cut -sf 1 | xargs -I {} $(ANDROID_SDK)/platform-tools/adb -s {} install -r ./app/app-release.apk
+#./app/build/outputs/apk/app-release.apk
 
 uninstall:
 	$(ANDROID_SDK)/platform-tools/adb devices | tail -n +2 | cut -sf 1 | xargs -I {} $(ANDROID_SDK)/platform-tools/adb -s {} uninstall ravn.networkbroadcasttest
