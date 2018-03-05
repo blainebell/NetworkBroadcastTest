@@ -191,6 +191,15 @@ public class BroadcastTestActivity extends AppCompatActivity {
             }
         });
 
+        Button exit = (Button) findViewById(R.id.exit);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Exit pressed");
+                System.exit(0);
+            }
+        });
+
         CheckBox udp_connected_checkbox = (CheckBox) findViewById(R.id.udpCheckBox);
         udp_connected_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

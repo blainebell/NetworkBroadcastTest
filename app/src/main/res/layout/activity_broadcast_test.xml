@@ -7,10 +7,12 @@
     tools:context="ravn.networkbroadcasttest.BroadcastTestActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="368dp"
+        android:layout_height="400dp"
         android:orientation="vertical"
-        android:weightSum="5">
+        android:weightSum="5"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,8 +126,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="fill_vertical"
             android:layout_weight="5"
+            android:gravity="fill_vertical"
             android:orientation="vertical">
 
             <ScrollView
@@ -137,16 +139,16 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="fill_vertical">
+                    android:gravity="fill_vertical"
+                    android:orientation="vertical">
 
                     <EditText
                         android:id="@+id/logText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="50dp"
                         android:ems="10"
                         android:gravity="fill_vertical"
-                        android:layout_marginBottom="50dp"
                         android:inputType="textMultiLine" />
 
                 </LinearLayout>
@@ -206,6 +208,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/exit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Exit" />
         </LinearLayout>
 
     </LinearLayout>

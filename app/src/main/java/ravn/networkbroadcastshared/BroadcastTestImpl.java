@@ -163,8 +163,13 @@ public class BroadcastTestImpl {
 								}
 							}
 						} catch (IOException ioe){
-							sendMessage("Error receiving UDP Packet");
+							sendMessage("Error receiving UDP Packet message='" + ioe.getMessage() + "'");
 							ioe.printStackTrace();
+						}
+						try {
+							Thread.currentThread().sleep(100);
+						} catch (	Exception ex2){
+							ex2.printStackTrace();
 						}
 					}
 				}
@@ -216,8 +221,13 @@ public class BroadcastTestImpl {
 								}
 							}
 						} catch (IOException ioe){
-							sendMessage("Error receiving UDP Packet");
+							sendMessage("Error receiving Multicast Packet message='" + ioe.getMessage() + "'");
 							ioe.printStackTrace();
+						}
+						try {
+							Thread.currentThread().sleep(100);
+						} catch (	Exception ex2){
+							ex2.printStackTrace();
 						}
 					}
 				}
